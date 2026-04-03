@@ -1,12 +1,12 @@
 import Foundation
 
-class QuestionFactory: QuestionFactoryProtocol {
+final class QuestionFactory: QuestionFactoryProtocol {
     
     weak var delegate: QuestionFactoryDelegate?
     
     func setup(delegate: QuestionFactoryDelegate) {
-            self.delegate = delegate
-        }
+        self.delegate = delegate
+    }
     
     
     

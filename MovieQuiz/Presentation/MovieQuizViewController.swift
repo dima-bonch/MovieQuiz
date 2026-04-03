@@ -3,44 +3,30 @@ import UIKit
 final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     
     // MARK: - Outlets
-    @IBOutlet private var counterLabel: UILabel!
-    
-    @IBOutlet private var imageView: UIImageView!
-    
-    @IBOutlet private var textLabel: UILabel!
-    
-    @IBOutlet private var yesButton: UIButton!
-    
-    @IBOutlet private var noButton: UIButton!
+    @IBOutlet private weak var counterLabel: UILabel!
+    @IBOutlet private weak var imageView: UIImageView!
+    @IBOutlet private weak var textLabel: UILabel!
+    @IBOutlet private weak var yesButton: UIButton!
+    @IBOutlet private weak var noButton: UIButton!
     
     
     // MARK: - Properties
     private var currentQuestionIndex = 0
-    
     private var correctAnswers = 0
-    
     private let questionsAmount: Int = 10
-    
     private var questionFactory: QuestionFactory?
-    
     private var currentQuestion: QuizQuestion?
-    
     private var alertPresenter = AlertPresenter()
-    
     private var statisticService: StatisticServiceProtocol!
     
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        statisticService = StatisticService()
-        setupImageView()
         
-        let questionFactory = QuestionFactory()
-        questionFactory.setup(delegate: self)
-        self.questionFactory = questionFactory
-        
-        questionFactory.requestNextQuestion()
+        setupServices()
+        setupUI()
+        setupQuestionFactory()
     }
     
     // MARK: - QuestionFactoryDelegate
@@ -61,23 +47,41 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     
     // MARK: - Actions
     @IBAction private func yesButtonClicked(_ sender: UIButton) {
-        setButtonsEnabled(false)
-        guard let currentQuestion = currentQuestion else {return}
-        
-        showAnswerResult(isCorrect: currentQuestion.correctAnswer)
+        handleAnswer(isYes: true)
     }
-    
     
     @IBAction private func noButtonClicked(_ sender: UIButton) {
-        setButtonsEnabled(false)
-        guard let currentQuestion = currentQuestion else {return}
-        
-        showAnswerResult(isCorrect: !currentQuestion.correctAnswer)
+        handleAnswer(isYes: false)
     }
     
+    private func handleAnswer(isYes: Bool) {
+        setButtonsEnabled(false)
+        guard let currentQuestion else { return }
+        
+        let isCorrect = isYes
+        ? currentQuestion.correctAnswer
+        : !currentQuestion.correctAnswer
+        
+        showAnswerResult(isCorrect: isCorrect)
+    }
+    
+    // MARK: - Setup
+    private func setupServices() {
+        statisticService = StatisticService()
+    }
+    
+    private func setupUI() {
+        setupImageView()
+    }
+    
+    private func setupQuestionFactory() {
+        let factory = QuestionFactory()
+        factory.setup(delegate: self)
+        questionFactory = factory
+        factory.requestNextQuestion()
+    }
     
     // MARK: - Private Methods
-    
     private func convert(model: QuizQuestion) -> QuizStepViewModel {
         QuizStepViewModel(
             image: UIImage(named: model.imageName) ?? UIImage(),

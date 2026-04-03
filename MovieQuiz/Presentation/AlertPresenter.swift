@@ -1,6 +1,11 @@
 import UIKit
 
+// MARK: - AlertPresenter
+
 final class AlertPresenter {
+    
+    // MARK: - Public Methods
+    
     func show(in vc: UIViewController, model: AlertModel) {
         let alert = UIAlertController(
             title: model.title,
