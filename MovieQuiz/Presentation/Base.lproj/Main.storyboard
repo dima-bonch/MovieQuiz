@@ -104,17 +104,25 @@
                                     </stackView>
                                 </subviews>
                             </stackView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="kLr-I6-x9W">
+                                <rect key="frame" x="197" y="438" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" name="YP Black (iOS)"/>
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="8hn-Dy-grx" secondAttribute="bottom" id="92Y-gm-WFx"/>
+                            <constraint firstItem="kLr-I6-x9W" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="Ebp-VP-BJS"/>
+                            <constraint firstItem="kLr-I6-x9W" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Nya-FP-PKj"/>
+                            <constraint firstItem="kLr-I6-x9W" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="QS6-ke-m2k"/>
                             <constraint firstItem="8hn-Dy-grx" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="V8s-Ql-hhU"/>
                             <constraint firstItem="8hn-Dy-grx" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="WQD-06-mDk"/>
+                            <constraint firstItem="kLr-I6-x9W" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="XnF-kr-4Qz"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="8hn-Dy-grx" secondAttribute="trailing" constant="20" id="beI-AZ-CPi"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="kLr-I6-x9W" id="Zft-ox-UCQ"/>
                         <outlet property="counterLabel" destination="bTo-jd-eYv" id="W9k-og-IsR"/>
                         <outlet property="imageView" destination="bus-1V-YMf" id="Fhy-iu-Nyd"/>
                         <outlet property="noButton" destination="3PP-Bc-6oN" id="2VA-Ph-Wwa"/>
