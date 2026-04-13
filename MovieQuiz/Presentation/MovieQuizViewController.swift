@@ -52,7 +52,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     }
     
     func didFailToLoadData(with error: Error) {
-        showNetworkError(message: error.localizedDescription) // возьмём в качестве сообщения описание ошибки
+        showNetworkError(message: error.localizedDescription)
     }
     
     
@@ -83,6 +83,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     
     private func setupUI() {
         setupImageView()
+        activityIndicator.hidesWhenStopped = true
     }
     
     private func setupQuestionFactory() {
@@ -173,7 +174,6 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         noButton.isEnabled = isEnabled
     }
     private func showLoadingIndicator() {
-        activityIndicator.isHidden = false
         activityIndicator.startAnimating()
     }
     private func showNetworkError(message: String) {
@@ -196,6 +196,5 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     }
     private func hideLoadingIndicator() {
         activityIndicator.stopAnimating()
-        activityIndicator.isHidden = true
     }
 }
