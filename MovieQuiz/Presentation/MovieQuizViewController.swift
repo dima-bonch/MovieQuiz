@@ -34,6 +34,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     
     func didReceiveNextQuestion(question: QuizQuestion?) {
         guard let question = question else {
+            showNetworkError(message: "Не удалось загрузить вопрос")
             return
         }
         
@@ -41,11 +42,12 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         let viewModel = convert(model: question)
         
         DispatchQueue.main.async { [weak self] in
+            self?.hideLoadingIndicator()
             self?.show(quiz: viewModel)
         }
     }
+    
     func didLoadDataFromServer() {
-        hideLoadingIndicator()
         questionFactory?.requestNextQuestion()
     }
     
@@ -154,6 +156,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
             guard let self = self else { return }
             self.currentQuestionIndex = 0
             self.correctAnswers = 0
+            self.showLoadingIndicator()
             self.questionFactory?.requestNextQuestion()
         }
         
@@ -176,15 +179,17 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     private func showNetworkError(message: String) {
         hideLoadingIndicator()
         
-        let model = AlertModel(title: "Ошибка",
-                               message: message,
-                               buttonText: "Попробовать еще раз") { [weak self] in
+        let model = AlertModel(
+            title: "Ошибка",
+            message: message,
+            buttonText: "Попробовать еще раз"
+        ) { [weak self] in
             guard let self = self else { return }
             
             self.currentQuestionIndex = 0
             self.correctAnswers = 0
-            
-            self.questionFactory?.requestNextQuestion()
+            self.showLoadingIndicator()
+            self.questionFactory?.loadData()
         }
         
         alertPresenter.show(in: self, model: model)
